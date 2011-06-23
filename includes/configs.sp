@@ -1,11 +1,11 @@
 #pragma semicolon 1
 #include <sourcemod>
 
-#if defined __CONFOGL_CONFIGS__
+#if defined __LGOFNOC_CONFIGS__
 #endinput
 #endif
 
-#define __CONFOGL_CONFIGS__
+#define __LGOFNOC_CONFIGS__
 
 static const String:customCfgDir[] = "cfgogl";
 

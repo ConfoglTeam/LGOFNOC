@@ -10,7 +10,7 @@ MatchMode_OnPluginStart()
 	RegServerCmd("command_buffer_done_callback", CmdBufDoneCallback);
 }
 
-MatchMode_OnMapStart()
+MatchMode_OnConfigsExecuted()
 {
 	if(IsMatchModeInProgress())
 	{

@@ -9,7 +9,7 @@
 #include "includes/configs.sp"
 #include "includes/customtags.inc"
 
-//#include "modules/MapInfo.sp"
+#include "modules/MapInfo.sp"
 //#include "modules/CvarSettings.sp"
 #include "modules/MatchMode.sp"
 
@@ -37,7 +37,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 {
 	Configs_APL();
 	MatchMode_APL();
-//	MI_APL();
+	RegisterMapInfoNatives();
 	RegPluginLibrary("lgofnoc");
 }
 
@@ -49,13 +49,12 @@ public OnPluginEnd()
 
 public OnMapStart()
 {
-//	MI_OnMapStart();
-//	MatchMode_OnMapStart();
+	UpdateMapInfo();
 }
 
 public OnMapEnd()
 {
-//	MI_OnMapEnd();	
+	MapInfo_OnMapEnd();	
 }
 
 public OnConfigsExecuted()

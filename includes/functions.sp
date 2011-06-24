@@ -22,8 +22,6 @@ stock Handle:FindConVarEx(const String:name[])
 	return FindConVar(sBuffer);
 }
 
-new bool:bIsPluginEnabled = false;
-
 stock bool:IsHumansOnServer()
 {
 	for(new i=1;i<=MaxClients;i++)
@@ -34,15 +32,6 @@ stock bool:IsHumansOnServer()
 		}
 	}
 	return false;
-}
-
-bool:IsPluginEnabled(bool:bSetStatus=false,bool:bStatus=false)
-{
-	if(bSetStatus)
-	{
-		bIsPluginEnabled = bStatus;
-	}
-	return bIsPluginEnabled;
 }
 
 stock ZeroVector(Float:vector[3])

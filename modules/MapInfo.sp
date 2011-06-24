@@ -28,9 +28,16 @@ MapInfo_OnMapEnd()
 
 CloseMapInfo()
 {
-	if(kMIData == INVALID_HANDLE) return;
-	CloseHandle(kMIData);
-	kMIData = INVALID_HANDLE;
+	if(kMIData != INVALID_HANDLE)
+	{
+		CloseHandle(kMIData);
+		kMIData = INVALID_HANDLE;
+	}
+	if(kLocalMIData != INVALID_HANDLE)
+	{
+		CloseHandle(kLocalMIData);
+		kLocalMIData = INVALID_HANDLE;
+	}
 }
 
 LoadMapInfo()

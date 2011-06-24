@@ -67,6 +67,7 @@ bool:MatchMode_Load(const String:config[])
 		PrintToChatAll("No such config %s", config);
 		return false;
 	}
+	LoadMapInfo();
 	PrintToChatAll("Starting Matchmode with config %s", config);
 	g_bMatchModeLoaded=true;
 	ServerCommand("sm plugins load_unlock");
@@ -109,6 +110,7 @@ MatchMode_Unload(bool:restartMap=true)
 	g_bMatchModeLoaded=false;
 	ServerCommand("sm plugins load_unlock");
 	UnloadAllPluginsButMe();
+	CloseMapInfo();
 	PrintToChatAll("Confogl Matchmode unloaded.");
 	if(restartMap) {
 		RestartMapCountdown(5.0);

@@ -15,17 +15,13 @@ static String:cfgPath[PLATFORM_MAX_PATH];
 static String:customCfgPath[PLATFORM_MAX_PATH];
 static DirSeparator;
 
-Configs_OnModuleStart()
-{
-	InitPaths();
-}
-Configs_APL()
+RegisterConfigsNatives()
 {
 	CreateNative("LGO_BuildConfigPath", _native_BuildConfigPath);
 	CreateNative("LGO_ExecuteConfigCfg", _native_ExecConfigCfg);
 }
 
-InitPaths()
+InitConfigsPaths()
 {
 	BuildPath(Path_SM, configsPath, sizeof(configsPath), "configs/confogl/");
 	BuildPath(Path_SM, cfgPath, sizeof(cfgPath), "../../cfg/");

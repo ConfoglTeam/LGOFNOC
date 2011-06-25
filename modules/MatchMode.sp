@@ -7,7 +7,10 @@ stock bool:IsMatchModeInProgress() { return g_bMatchModeLoaded; }
 MatchMode_OnPluginStart()
 {
 	RegAdminCmd("sm_forcematch", ForceMatchCmd, ADMFLAG_CONFIG, "Loads matchmode on a given config. Will unload a previous config if one is loaded");
+	RegAdminCmd("sm_softmatch", SoftMatchCmd, ADMFLAG_CONFIG, "Loads matchmode on a given config only if no match is currently running.");
 	RegServerCmd("command_buffer_done_callback", CmdBufDoneCallback);
+	//	g_hFwdPluginsLoaded = CreateGlobalForward("LGO_OnMatchModeLoaded", ET_Event, Param_String);
+	//	g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
 }
 
 MatchMode_OnConfigsExecuted()
@@ -26,10 +29,23 @@ MatchMode_OnConfigsExecuted()
 	}
 }
 
-MatchMode_APL()
+public Action:SoftMatchCmd(client, args)
 {
-//	g_hFwdPluginsLoaded = CreateGlobalForward("LGO_OnMatchModeLoaded", ET_Event, Param_String);
-//	g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
+	if(args < 1)
+	{
+		ReplyToCommand(client, "Must specify a config to use");
+		return Plugin_Handled;
+	}
+	if(IsMatchModeInProgress()) return Plugin_Handled;
+	
+	decl String:configbuf[64];
+	GetCmdArg(1, configbuf, sizeof(configbuf));
+	if(!MatchMode_Load(configbuf))
+	{
+		ReplyToCommand(client, "Matchmode failed to load!");
+	}
+	return Plugin_Handled;
+	 
 }
 
 public Action:ForceMatchCmd(client, args)
@@ -46,8 +62,7 @@ public Action:ForceMatchCmd(client, args)
 	{
 		ReplyToCommand(client, "Matchmode failed to load!");
 	}
-	return Plugin_Handled;
-	 
+	return Plugin_Handled;	 
 }
 
 public Action:ResetMatchCmd(client, args)

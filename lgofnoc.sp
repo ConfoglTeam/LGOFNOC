@@ -24,26 +24,21 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	Configs_OnModuleStart();
-//	MI_OnModuleStart();
+	InitConfigsPaths();
 	MatchMode_OnPluginStart();
-	
-//	CVS_OnModuleStart();
 	
 	AddCustomServerTag("lgofnoc", true);
 }
 
 public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 {
-	Configs_APL();
-	MatchMode_APL();
+	RegisterConfigsNatives();
 	RegisterMapInfoNatives();
 	RegPluginLibrary("lgofnoc");
 }
 
 public OnPluginEnd()
 {
-//	CVS_OnModuleEnd();
 	RemoveCustomServerTag("lgofnoc");
 }
 
@@ -59,6 +54,5 @@ public OnMapEnd()
 
 public OnConfigsExecuted()
 {
-//	CVS_OnConfigsExecuted();
 	MatchMode_OnConfigsExecuted();
 }

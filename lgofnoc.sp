@@ -1,10 +1,6 @@
 #pragma semicolon 1
 
-#define PLUGIN_VERSION	"1.0"
-
 #include <sourcemod>
-#include <sdktools>
-#include <socket>
 #include "includes/functions.sp"
 #include "includes/configs.sp"
 #include "includes/customtags.inc"
@@ -18,14 +14,14 @@ public Plugin:myinfo =
 	name = "LGOFNOC Config Manager",
 	author = "Confogl Team",
 	description = "A competitive configuration management system for Source games",
-	version = PLUGIN_VERSION,
+	version = "1.0",
 	url = "http://github.com/ProdigySim/LGOFNOC/"
 }
 
 public OnPluginStart()
 {
 	InitConfigsPaths();
-	MatchMode_OnPluginStart();
+	RegisterMatchModeCommands();
 	
 	AddCustomServerTag("lgofnoc", true);
 }

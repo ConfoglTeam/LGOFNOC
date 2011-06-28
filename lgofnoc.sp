@@ -4,6 +4,7 @@
 #include "includes/functions.sp"
 #include "includes/configs.sp"
 #include "includes/customtags.inc"
+#include "includes/keyvalues_stocks.inc"
 
 #include "modules/MapInfo.sp"
 //#include "modules/CvarSettings.sp"

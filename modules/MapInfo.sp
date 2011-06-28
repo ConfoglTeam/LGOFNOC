@@ -7,7 +7,6 @@
 #define DEBUG_MI					0
 
 new Handle:kMIData;
-new Handle:kLocalMIData;
 static bool:MapDataAvailable;
 
 RegisterMapInfoNatives()
@@ -33,11 +32,6 @@ CloseMapInfo()
 		CloseHandle(kMIData);
 		kMIData = INVALID_HANDLE;
 	}
-	if(kLocalMIData != INVALID_HANDLE)
-	{
-		CloseHandle(kLocalMIData);
-		kLocalMIData = INVALID_HANDLE;
-	}
 }
 
 LoadMapInfo()
@@ -49,16 +43,15 @@ LoadMapInfo()
 	#endif
 
 	kMIData = CreateKeyValues("MapInfo");	
-	kLocalMIData = CreateKeyValues("MapInfo");	
-	FileToKeyValues(kMIData, "cfg/cfgogl/mapinfo.txt");
+	AddFileToKeyValues(kMIData, "cfg/cfgogl/mapinfo.txt");
 	BuildConfigPath(sNameBuff, sizeof(sNameBuff), "mapinfo.txt"); //Build our filepath
-	FileToKeyValues(kLocalMIData, sNameBuff);
+	AddFileToKeyValues(kMIData, sNameBuff);
 }
 
 UpdateMapInfo()
 {
 	decl String:sCurMap[128];
-	if(kMIData == INVALID_HANDLE || kLocalMIData == INVALID_HANDLE) 
+	if(kMIData == INVALID_HANDLE) 
 	{
 		MapDataAvailable = false;
 		return;
@@ -71,12 +64,6 @@ UpdateMapInfo()
 		LogMessage("[MI] Global MapInfo for %s is missing.", sCurMap);
 		KvJumpToKey(kMIData, sCurMap, true);
 	}
-	KvRewind(kLocalMIData);
-	if(!KvJumpToKey(kLocalMIData, sCurMap))
-	{
-		LogMessage("[MI] Local MapInfo for %s is missing.", sCurMap);
-		KvJumpToKey(kLocalMIData, sCurMap, true);
-	}
 
 	MapDataAvailable = true;
 }
@@ -85,33 +72,24 @@ stock bool:IsMapDataAvailable() return MapDataAvailable;
 
 stock GetMapValueInt(const String:key[], defvalue=0) 
 {
-	return KvGetNum(kLocalMIData, key, KvGetNum(kMIData, key, defvalue)); 
+	return KvGetNum(kMIData, key, defvalue); 
 }
 stock Float:GetMapValueFloat(const String:key[], Float:defvalue=0.0) 
 {
-	return KvGetFloat(kLocalMIData, key, KvGetFloat(kMIData, key, defvalue)); 
+	return KvGetFloat(kMIData, key, defvalue); 
 }
 stock GetMapValueVector(const String:key[], Float:vector[3], Float:defvalue[3]=NULL_VECTOR) 
 {
-	decl Float:temp[3];
-	KvGetVector(kMIData, key, temp, defvalue);
-	KvGetVector(kLocalMIData, key, vector, temp);
+	KvGetVector(kMIData, key, vector, defvalue);
 }
 stock GetMapValueString(const String:key[], String:value[], maxlength, const String:defvalue[])
 {
-	decl String:temp[maxlength];
-	KvGetString(kMIData, key, temp, maxlength, defvalue);
-	KvGetString(kLocalMIData, key, value, maxlength, temp);
+	KvGetString(kMIData, key, value, maxlength, defvalue);
 }
 
 stock CopyMapSubsection(Handle:kv, const String:section[])
 {
-	if(KvJumpToKey(kLocalMIData, section, false))
-	{
-		KvCopySubkeys(kLocalMIData, kv);
-		KvGoBack(kLocalMIData);
-	}
-	else if(KvJumpToKey(kMIData, section, false))
+	if(KvJumpToKey(kMIData, section, false))
 	{
 		KvCopySubkeys(kMIData, kv);
 		KvGoBack(kMIData);

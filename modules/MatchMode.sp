@@ -123,7 +123,7 @@ MatchModeLoad_PostPlugins()
 	ServerCommand("exec cfgogl/confogl_once.cfg");
 	ExecuteConfigCfg("confogl_once.cfg");
 	RestartMapCountdown(5.0);
-	PrintToChatAll("Config %s loaded! Map will restart in 5 seconds.");
+	PrintToChatAll("Config %s loaded! Map will restart in 5 seconds.", g_sCurrentConfig);
 	return true;
 }
 
@@ -135,7 +135,7 @@ MatchMode_Unload(bool:restartMap=true)
 	ServerCommand("sm plugins load_unlock");
 	UnloadAllPluginsButMe();
 	CloseMapInfo();
-	PrintToChatAll("Confogl Matchmode unloaded.");
+	PrintToChatAll("Lgofnoc Matchmode unloaded.");
 	if(restartMap) {
 		RestartMapCountdown(5.0);
 		PrintToChatAll("Map will restart in 5 seconds.");

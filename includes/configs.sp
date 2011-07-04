@@ -10,6 +10,8 @@
 static const String:customCfgDir[] = "cfgogl";
 
 //static Handle:hCustomConfig;
+public String:g_sCurrentConfig[PLATFORM_MAX_PATH]="";
+
 static String:configsPath[PLATFORM_MAX_PATH];
 static String:cfgPath[PLATFORM_MAX_PATH];
 static String:customCfgPath[PLATFORM_MAX_PATH];
@@ -55,7 +57,7 @@ bool:SetCustomCfg(const String:cfgname[])
 		customCfgPath[0]=0;
 		return false;
 	}
-	
+	strcopy(g_sCurrentConfig, sizeof(g_sCurrentConfig), cfgname);
 	
 	return true;	
 }

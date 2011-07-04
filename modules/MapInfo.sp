@@ -2,7 +2,6 @@
 
 #include <sourcemod>
 #include <sdktools>
-#include <left4downtown>
 
 #define DEBUG_MI					0
 

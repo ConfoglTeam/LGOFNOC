@@ -15,12 +15,12 @@ static bool:bTrackingStarted;
 CVS_OnModuleStart()
 {
 	CvarSettingsArray = CreateArray(_:CVSEntry);
-	RegConsoleCmd("confogl_cvarsettings", CVS_CvarSettings_Cmd, "List all ConVars being enforced by Confogl");
-	RegConsoleCmd("confogl_cvardiff", CVS_CvarDiff_Cmd, "List any ConVars that have been changed from their initialized values");
+	RegConsoleCmd("lgofnoc_cvarsettings", CVS_CvarSettings_Cmd, "List all ConVars being enforced by Lgofnoc");
+	RegConsoleCmd("lgofnoc_cvardiff", CVS_CvarDiff_Cmd, "List any ConVars that have been changed from their initialized values");
 	
-	RegServerCmd("confogl_addcvar", CVS_AddCvar_Cmd, "Add a ConVar to be set by Confogl");
-	RegServerCmd("confogl_setcvars", CVS_SetCvars_Cmd, "Starts enforcing ConVars that have been added.");
-	RegServerCmd("confogl_resetcvars", CVS_ResetCvars_Cmd, "Resets enforced ConVars.  Cannot be used during a match!");
+	RegServerCmd("lgofnoc_addcvar", CVS_AddCvar_Cmd, "Add a ConVar to be set by Lgofnoc");
+	RegServerCmd("lgofnoc_setcvars", CVS_SetCvars_Cmd, "Starts enforcing ConVars that have been added.");
+	RegServerCmd("lgofnoc_resetcvars", CVS_ResetCvars_Cmd, "Resets enforced ConVars.  Cannot be used during a match!");
 	
 	
 }
@@ -45,7 +45,7 @@ public Action:CVS_SetCvars_Cmd(args)
 			return;
 		}
 		#if CVARS_DEBUG
-			LogMessage("[Confogl] CvarSettings: No longer accepting new ConVars");
+			LogMessage("[Lgofnoc] CvarSettings: No longer accepting new ConVars");
 		#endif
 		SetEnforcedCvars();
 		bTrackingStarted = true;
@@ -56,11 +56,11 @@ public Action:CVS_AddCvar_Cmd(args)
 {
 	if (args != 2)
 	{
-		PrintToServer("Usage: confogl_addcvar <cvar> <newValue>");
+		PrintToServer("Usage: lgofnoc_addcvar <cvar> <newValue>");
 		#if CVARS_DEBUG
 			decl String:cmdbuf[MAX_NAME_LENGTH];
 			GetCmdArgString(cmdbuf, sizeof(cmdbuf));
-			LogError("[Confogl] Invalid Cvar Add: %s", cmdbuf);
+			LogError("[Lgofnoc] Invalid Cvar Add: %s", cmdbuf);
 		#endif
 		return Plugin_Handled;
 	}
@@ -92,7 +92,7 @@ public Action:CVS_CvarSettings_Cmd(client, args)
 	
 	if (!bTrackingStarted)
 	{
-		ReplyToCommand(client, "[Confogl] CVar tracking has not been started!! THIS SHOULD NOT OCCUR DURING A MATCH!");
+		ReplyToCommand(client, "[Lgofnoc] CVar tracking has not been started!! THIS SHOULD NOT OCCUR DURING A MATCH!");
 		return Plugin_Handled;
 	}
 	
@@ -100,7 +100,7 @@ public Action:CVS_CvarSettings_Cmd(client, args)
 	decl cvsetting[CVSEntry];
 	decl String:buffer[CVS_CVAR_MAXLEN], String:name[CVS_CVAR_MAXLEN];
 	
-	ReplyToCommand(client, "[Confogl] Enforced Server CVars (Total %d)", cvscount);
+	ReplyToCommand(client, "[Lgofnoc] Enforced Server CVars (Total %d)", cvscount);
 	
 	GetCmdArg(1, buffer, sizeof(buffer));
 	new offset = StringToInt(buffer);
@@ -115,9 +115,9 @@ public Action:CVS_CvarSettings_Cmd(client, args)
 		GetArrayArray(CvarSettingsArray, i, cvsetting[0]);
 		GetConVarString(cvsetting[CVSE_cvar], buffer, sizeof(buffer));
 		GetConVarName(cvsetting[CVSE_cvar], name, sizeof(name));
-		ReplyToCommand(client, "[Confogl] Server CVar: %s, Desired Value: %s, Current Value: %s", name, cvsetting[CVSE_newval], buffer);
+		ReplyToCommand(client, "[Lgofnoc] Server CVar: %s, Desired Value: %s, Current Value: %s", name, cvsetting[CVSE_newval], buffer);
 	}
-	if (offset + 20 < cvscount) ReplyToCommand(client, "[Confogl] To see more CVars, use confogl_cvarsettings %d", offset+20);
+	if (offset + 20 < cvscount) ReplyToCommand(client, "[Lgofnoc] To see more CVars, use lgofnoc_cvarsettings %d", offset+20);
 	return Plugin_Handled;
 }
 
@@ -127,7 +127,7 @@ public Action:CVS_CvarDiff_Cmd(client, args)
 	
 	if (!bTrackingStarted)
 	{
-		ReplyToCommand(client, "[Confogl] CVar tracking has not been started!! THIS SHOULD NOT OCCUR DURING A MATCH!");
+		ReplyToCommand(client, "[Lgofnoc] CVar tracking has not been started!! THIS SHOULD NOT OCCUR DURING A MATCH!");
 		return Plugin_Handled;
 	}
 	
@@ -149,13 +149,13 @@ public Action:CVS_CvarDiff_Cmd(client, args)
 		GetConVarName(cvsetting[CVSE_cvar], name, sizeof(name));
 		if (!StrEqual(cvsetting[CVSE_newval], buffer))
 		{
-			ReplyToCommand(client, "[Confogl] Server CVar: %s, Desired Value: %s, Current Value: %s", name, cvsetting[CVSE_newval], buffer);
+			ReplyToCommand(client, "[Lgofnoc] Server CVar: %s, Desired Value: %s, Current Value: %s", name, cvsetting[CVSE_newval], buffer);
 			foundCvars++;
 		}
 		offset++;
 	}
 	
-	if (offset < cvscount) ReplyToCommand(client, "[Confogl] To see more CVars, use confogl_cvarsettings %d", offset);
+	if (offset < cvscount) ReplyToCommand(client, "[Lgofnoc] To see more CVars, use lgofnoc_cvarsettings %d", offset);
 	return Plugin_Handled;
 }
 
@@ -193,19 +193,19 @@ static AddCvar(const String:cvar[], const String:newval[])
 	if (bTrackingStarted)
 	{
 		#if CVARS_DEBUG
-		LogMessage("[Confogl] CvarSettings: Attempt to track new cvar %s during a match!", cvar);
+		LogMessage("[Lgofnoc] CvarSettings: Attempt to track new cvar %s during a match!", cvar);
 		#endif
 		return;
 	}
 	
 	if (strlen(cvar) >= CVS_CVAR_MAXLEN)
 	{
-		LogError("[Confogl] CvarSettings: CVar Specified (%s) is longer than max cvar/value length (%d)", cvar, CVS_CVAR_MAXLEN);
+		LogError("[Lgofnoc] CvarSettings: CVar Specified (%s) is longer than max cvar/value length (%d)", cvar, CVS_CVAR_MAXLEN);
 		return;
 	}
 	if (strlen(newval) >= CVS_CVAR_MAXLEN)
 	{
-		LogError("[Confogl] CvarSettings: New Value Specified (%s) is longer than max cvar/value length (%d)", newval, CVS_CVAR_MAXLEN);
+		LogError("[Lgofnoc] CvarSettings: New Value Specified (%s) is longer than max cvar/value length (%d)", newval, CVS_CVAR_MAXLEN);
 		return;
 	}
 	
@@ -213,7 +213,7 @@ static AddCvar(const String:cvar[], const String:newval[])
 	
 	if (newCvar == INVALID_HANDLE)
 	{
-		LogError("[Confogl] CvarSettings: Could not find CVar specified (%s)", cvar);
+		LogError("[Lgofnoc] CvarSettings: Could not find CVar specified (%s)", cvar);
 		return;
 	}
 	
@@ -225,7 +225,7 @@ static AddCvar(const String:cvar[], const String:newval[])
 		GetConVarName(newEntry[CVSE_cvar], cvarBuffer, CVS_CVAR_MAXLEN);
 		if (StrEqual(cvar, cvarBuffer, false))
 		{
-			LogError("[Confogl] CvarSettings: Attempt to track ConVar %s, which is already being tracked.", cvar);
+			LogError("[Lgofnoc] CvarSettings: Attempt to track ConVar %s, which is already being tracked.", cvar);
 			return;
 		}
 	}
@@ -239,7 +239,7 @@ static AddCvar(const String:cvar[], const String:newval[])
 	HookConVarChange(newCvar, CVS_ConVarChange);
 	
 	#if CVARS_DEBUG
-		LogMessage("[Confogl] CvarSettings: cvar = %s, newval = %s, oldval = %s", cvar, newval, cvarBuffer);
+		LogMessage("[Lgofnoc] CvarSettings: cvar = %s, newval = %s, oldval = %s", cvar, newval, cvarBuffer);
 	#endif
 	
 	PushArrayArray(CvarSettingsArray, newEntry[0]);
@@ -251,6 +251,6 @@ public CVS_ConVarChange(Handle:convar, const String:oldValue[], const String:new
 	{
 		decl String:name[CVS_CVAR_MAXLEN];
 		GetConVarName(convar, name, sizeof(name));
-		PrintToChatAll("!!! [Confogl] Tracked Server CVar \"%s\" changed from \"%s\" to \"%s\" !!!", name, oldValue, newValue);
+		PrintToChatAll("!!! [Lgofnoc] Tracked Server CVar \"%s\" changed from \"%s\" to \"%s\" !!!", name, oldValue, newValue);
 	}
 }

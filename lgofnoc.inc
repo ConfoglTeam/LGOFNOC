@@ -145,14 +145,14 @@ public SharedPlugin:__pl_lgofnoc =
 #endif
 };
  
-public __pl_confogl_SetNTVOptional()
+public __pl_lgofnoc_SetNTVOptional()
 {
 	MarkNativeAsOptional("LGO_BuildConfigPath");
 	MarkNativeAsOptional("LGO_ExecuteConfigCfg");
 	MarkNativeAsOptional("LGO_IsMapDataAvailable");
 	MarkNativeAsOptional("LGO_GetMapValueInt");
 	MarkNativeAsOptional("LGO_GetMapValueFloat");
-	MarkNativeAsOptional("LGO__GetMapValueVector");
+	MarkNativeAsOptional("LGO_GetMapValueVector");
 	MarkNativeAsOptional("LGO_GetMapValueString");
 	MarkNativeAsOptional("LGO_CopyMapSubsection");	
 }

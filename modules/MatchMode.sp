@@ -22,8 +22,8 @@ MatchMode_OnConfigsExecuted()
 		GetCurrentMap(mapbuf, sizeof(mapbuf));
 		StrCat(mapbuf, sizeof(mapbuf), ".cfg");
 	
-		ServerCommand("exec cfgogl/confogl.cfg");
-		ExecuteConfigCfg("confogl.cfg");
+		ServerCommand("exec cfgogl/lgofnoc.cfg");
+		ExecuteConfigCfg("lgofnoc.cfg");
 	
 		ServerCommand("exec cfgogl/%s", mapbuf);
 		ExecuteConfigCfg(mapbuf);
@@ -96,8 +96,8 @@ bool:MatchMode_Load(const String:config[])
 	g_bMatchModeLoaded=true;
 	ServerCommand("sm plugins load_unlock");
 	UnloadAllPluginsButMe();
-	ServerCommand("exec cfgogl/confogl_plugins.cfg");
-	ExecuteConfigCfg("confogl_plugins.cfg");
+	ServerCommand("exec cfgogl/lgofnoc_plugins.cfg");
+	ExecuteConfigCfg("lgofnoc_plugins.cfg");
 	ServerCommand("sm plugins load_lock");
 	ServerCommand("command_buffer_done_callback"); // see you in the next call
 	return true;
@@ -120,8 +120,8 @@ MatchModeLoad_PostPlugins()
 //	Call_PushString(config);
 //	Call_Finish();
 
-	ServerCommand("exec cfgogl/confogl_once.cfg");
-	ExecuteConfigCfg("confogl_once.cfg");
+	ServerCommand("exec cfgogl/lgofnoc_once.cfg");
+	ExecuteConfigCfg("lgofnoc_once.cfg");
 	RestartMapCountdown(5.0);
 	PrintToChatAll("Config %s loaded! Map will restart in 5 seconds.", g_sCurrentConfig);
 	return true;
@@ -174,6 +174,6 @@ public Action:RestartMapCallback(Handle:timer)
 {
 	decl String:map[64];
 	GetCurrentMap(map, sizeof(map));
-	ForceChangeLevel(map, "Restarting Map for Confogl");
+	ForceChangeLevel(map, "Restarting Map for Lgofnoc");
 	return Plugin_Handled;
 }

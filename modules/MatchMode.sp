@@ -14,7 +14,7 @@ RegisterMatchModeCommands()
 	//	g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
 }
 
-MatchMode_OnConfigsExecuted()
+MatchMode_ExecuteConfigs()
 {
 	if(IsMatchModeInProgress())
 	{

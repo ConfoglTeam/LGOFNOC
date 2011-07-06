@@ -42,14 +42,11 @@ public OnPluginEnd()
 public OnMapStart()
 {
 	UpdateMapInfo();
+	MatchMode_ExecuteConfigs();
 }
 
-public OnMapEnd()
+public OnMapEnd() 
 {
-	MapInfo_OnMapEnd();	
+	MapInfo_OnMapEnd();
 }
 
-public OnConfigsExecuted()
-{
-	MatchMode_OnConfigsExecuted();
-}

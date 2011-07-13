@@ -12,7 +12,7 @@ enum CVSEntry
 static Handle:CvarSettingsArray;
 static bool:bTrackingStarted;
 
-CVS_OnModuleStart()
+InitCvarSettings()
 {
 	CvarSettingsArray = CreateArray(_:CVSEntry);
 	RegConsoleCmd("lgofnoc_cvarsettings", CVS_CvarSettings_Cmd, "List all ConVars being enforced by Lgofnoc");
@@ -21,35 +21,20 @@ CVS_OnModuleStart()
 	RegServerCmd("lgofnoc_addcvar", CVS_AddCvar_Cmd, "Add a ConVar to be set by Lgofnoc");
 	RegServerCmd("lgofnoc_setcvars", CVS_SetCvars_Cmd, "Starts enforcing ConVars that have been added.");
 	RegServerCmd("lgofnoc_resetcvars", CVS_ResetCvars_Cmd, "Resets enforced ConVars.  Cannot be used during a match!");
-	
-	
-}
-
-CVS_OnModuleEnd()
-{
-	ClearAllSettings();
-}
-
-CVS_OnConfigsExecuted()
-{
-	if (bTrackingStarted) SetEnforcedCvars();
 }
 
 public Action:CVS_SetCvars_Cmd(args)
 {
-	if (IsPluginEnabled())
+	if (bTrackingStarted)
 	{
-		if (bTrackingStarted)
-		{
-			PrintToServer("Tracking has already been started");
-			return;
-		}
-		#if CVARS_DEBUG
-			LogMessage("[Lgofnoc] CvarSettings: No longer accepting new ConVars");
-		#endif
-		SetEnforcedCvars();
-		bTrackingStarted = true;
+		PrintToServer("Tracking has already been started");
+		return;
 	}
+	#if CVARS_DEBUG
+		LogMessage("[Lgofnoc] CvarSettings: No longer accepting new ConVars");
+	#endif
+	SetEnforcedCvars();
+	bTrackingStarted = true;
 }
 
 public Action:CVS_AddCvar_Cmd(args)
@@ -76,20 +61,19 @@ public Action:CVS_AddCvar_Cmd(args)
 
 public Action:CVS_ResetCvars_Cmd(args)
 {
-	if (IsPluginEnabled())
+	// Maybe change to matchmode check
+	/*if (IsPluginEnabled())
 	{
 		PrintToServer("Can't reset tracking in the middle of a match");
 		return Plugin_Handled;
-	}
-	ClearAllSettings();
+	}*/
+	ClearAllCvarSettings();
 	PrintToServer("Server CVar Tracking Information Reset!");
 	return Plugin_Handled;
 }
 
 public Action:CVS_CvarSettings_Cmd(client, args)
 {
-	if (!IsPluginEnabled()) return Plugin_Handled;
-	
 	if (!bTrackingStarted)
 	{
 		ReplyToCommand(client, "[Lgofnoc] CVar tracking has not been started!! THIS SHOULD NOT OCCUR DURING A MATCH!");
@@ -123,8 +107,6 @@ public Action:CVS_CvarSettings_Cmd(client, args)
 
 public Action:CVS_CvarDiff_Cmd(client, args)
 {
-	if (!IsPluginEnabled()) return Plugin_Handled;
-	
 	if (!bTrackingStarted)
 	{
 		ReplyToCommand(client, "[Lgofnoc] CVar tracking has not been started!! THIS SHOULD NOT OCCUR DURING A MATCH!");
@@ -159,7 +141,7 @@ public Action:CVS_CvarDiff_Cmd(client, args)
 	return Plugin_Handled;
 }
 
-static ClearAllSettings()
+ClearAllCvarSettings()
 {
 	bTrackingStarted = false;
 	new cvsetting[CVSEntry];

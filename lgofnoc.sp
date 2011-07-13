@@ -7,7 +7,7 @@
 #include "includes/keyvalues_stocks.inc"
 
 #include "modules/MapInfo.sp"
-//#include "modules/CvarSettings.sp"
+#include "modules/CvarSettings.sp"
 #include "modules/MatchMode.sp"
 
 public Plugin:myinfo = 
@@ -22,6 +22,7 @@ public Plugin:myinfo =
 public OnPluginStart()
 {
 	InitConfigsPaths();
+	InitCvarSettings();
 	RegisterMatchModeCommands();
 	
 	AddCustomServerTag("lgofnoc", true);
@@ -36,6 +37,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 
 public OnPluginEnd()
 {
+	ClearAllCvarSettings();
 	RemoveCustomServerTag("lgofnoc");
 }
 

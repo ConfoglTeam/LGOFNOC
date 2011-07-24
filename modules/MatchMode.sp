@@ -1,7 +1,7 @@
 //new Handle:g_hFwdPluginsLoaded;
 
 new bool:g_bMatchModeLoaded;
-
+static bool:lgoLoadThisFrame=false;
 stock bool:IsMatchModeInProgress() { return g_bMatchModeLoaded; }
 
 RegisterMatchModeCommands()
@@ -10,6 +10,7 @@ RegisterMatchModeCommands()
 	RegAdminCmd("sm_softmatch", SoftMatchCmd, ADMFLAG_CONFIG, "Loads matchmode on a given config only if no match is currently running.");
 	RegAdminCmd("sm_resetmatch", ResetMatchCmd, ADMFLAG_CONFIG, "Unloads matchmode if it is currently running");
 	RegServerCmd("command_buffer_done_callback", CmdBufDoneCallback);
+	RegServerCmd("lgofnoc_loadplugin", LgoLoadPluginCmd);
 	//	g_hFwdPluginsLoaded = CreateGlobalForward("LGO_OnMatchModeLoaded", ET_Event, Param_String);
 	//	g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
 }
@@ -98,9 +99,40 @@ bool:MatchMode_Load(const String:config[])
 	UnloadAllPluginsButMe();
 	ServerCommand("exec cfgogl/lgofnoc_plugins.cfg");
 	ExecuteConfigCfg("lgofnoc_plugins.cfg");
-	ServerCommand("sm plugins load_lock");
-	ServerCommand("command_buffer_done_callback"); // see you in the next call
 	return true;
+}
+
+// Load a plugin from plugins/ or plugins/optional
+public Action:LgoLoadPluginCmd(args)
+{
+	decl String:plugin[PLATFORM_MAX_PATH], String:path[PLATFORM_MAX_PATH];
+	GetCmdArg(1, plugin, sizeof(plugin));
+	BuildPath(Path_SM, path, sizeof(path), "plugins/%s", plugin);
+	if(FileExists(path))
+	{
+		ServerCommand("sm plugins load %s", plugin);
+		lgoLoadThisFrame=true;
+		return Plugin_Handled;
+	}
+	BuildPath(Path_SM, path, sizeof(path), "plugins/optional/%s", plugin);
+	if(FileExists(path))
+	{
+		ServerCommand("sm plugins load optional/%s", plugin);
+		lgoLoadThisFrame=true;
+		return Plugin_Handled;
+	}
+	PrintToServer("Load Failed: Plugin %s not found in plugins/ or plugins/optional/", plugin);
+	return Plugin_Handled;
+}
+
+GameFramePluginCheck()
+{
+	if(lgoLoadThisFrame)
+	{
+		lgoLoadThisFrame=false;
+		ServerCommand("sm plugins load_lock");
+		ServerCommand("command_buffer_done_callback"); // see you in the next call
+	}
 }
 
 public Action:CmdBufDoneCallback(args)

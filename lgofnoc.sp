@@ -52,3 +52,7 @@ public OnMapEnd()
 	MapInfo_OnMapEnd();
 }
 
+public OnGameFrame()
+{
+	GameFramePluginCheck();
+}

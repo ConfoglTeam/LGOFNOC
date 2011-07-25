@@ -1,4 +1,6 @@
-//new Handle:g_hFwdPluginsLoaded;
+new Handle:g_hFwdPrePluginsLoaded;
+new Handle:g_hFwdPostPluginsLoaded;
+//new Handle:g_hFwdUnloadPre;
 
 new bool:g_bMatchModeLoaded;
 static bool:lgoLoadThisFrame=false;
@@ -11,8 +13,9 @@ RegisterMatchModeCommands()
 	RegAdminCmd("sm_resetmatch", ResetMatchCmd, ADMFLAG_CONFIG, "Unloads matchmode if it is currently running");
 	RegServerCmd("command_buffer_done_callback", CmdBufDoneCallback);
 	RegServerCmd("lgofnoc_loadplugin", LgoLoadPluginCmd);
-	//	g_hFwdPluginsLoaded = CreateGlobalForward("LGO_OnMatchModeLoaded", ET_Event, Param_String);
-	//	g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
+	g_hFwdPrePluginsLoaded = CreateGlobalForward("LGO_OnMatchModeStart_PrePlugins", ET_Event, Param_String);
+	g_hFwdPostPluginsLoaded = CreateGlobalForward("LGO_OnMatchModeStart", ET_Event, Param_String);
+	//g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
 }
 
 MatchMode_ExecuteConfigs()
@@ -95,6 +98,11 @@ bool:MatchMode_Load(const String:config[])
 	LoadMapInfo();
 	PrintToChatAll("Starting Matchmode with config %s", config);
 	g_bMatchModeLoaded=true;
+	
+	Call_StartForward(g_hFwdPrePluginsLoaded);
+	Call_PushString(config);
+	Call_Finish();
+	
 	ServerCommand("sm plugins load_unlock");
 	UnloadAllPluginsButMe();
 	ServerCommand("exec cfgogl/lgofnoc_plugins.cfg");
@@ -137,6 +145,7 @@ GameFramePluginCheck()
 
 public Action:CmdBufDoneCallback(args)
 {
+	if(!IsMatchModeInProgress()) return Plugin_Handled;
 	// We're back! Only a tick!
 	MatchModeLoad_PostPlugins();
 	return Plugin_Handled;
@@ -147,10 +156,9 @@ MatchModeLoad_PostPlugins()
 {
 	// Sequential!
 
-//  Maybe later
-//	Call_StartForward(g_hFwdPluginsLoaded);
-//	Call_PushString(config);
-//	Call_Finish();
+	Call_StartForward(g_hFwdPostPluginsLoaded);
+	Call_PushString(g_sCurrentConfig);
+	Call_Finish();
 
 	ServerCommand("exec cfgogl/lgofnoc_once.cfg");
 	ExecuteConfigCfg("lgofnoc_once.cfg");

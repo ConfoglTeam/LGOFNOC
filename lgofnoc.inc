@@ -30,20 +30,24 @@
  */
 
 /**
- * @brief Called when matchmode is fully loaded, before map restart.
- * @remarks Called just before lgofnoc_plugins.cfg executes
+ * @brief Called when a matchmode has been triggered, before plugins have been
+ * 		unloaded/reloaded.
+ * @remarks This will fire on the server's "main" plugins, before they are unloaded
  * 
+ * @param config  The name of the config being used for the match
  * @noreturn
  */
-forward LGO_OnMatchModeLoaded();
+forward LGO_OnMatchModeStart_PrePlugins(const String:config[]);
 
 /**
- * @brief Called when matchmode is un-loaded, before map restart.
- * @remarks Plugins are unloaded immediately after this call finishes
- * 
+ * @brief Called when matchmode is started, after plugins have been loaded,
+ * 		but before lgofnoc_once execution or map restart
+ * @remarks Just to tell plugins they're about to start a match on a given config
+ *
+ * @param config  The name of the config being used for the match
  * @noreturn
  */
-forward LGO_OnMatchModeLoaded();
+forward LGO_OnMatchModeStart(const String:config[]);
 
 /**
  * @brief Tells if a lgofnoc match is currently running

@@ -202,8 +202,10 @@ static AddCvar(const String:cvar[], const String:newval[])
 		GetConVarName(newEntry[CVSE_cvar], cvarBuffer, CVS_CVAR_MAXLEN);
 		if (StrEqual(cvar, cvarBuffer, false))
 		{
-			LogError("[Lgofnoc] CvarSettings: Attempt to track ConVar %s, which is already being tracked.", cvar);
-			return;
+			// Already tracking this cvar, but tracking not started
+			// Modify the value
+			strcopy(newEntry[CVSE_newval], CVS_CVAR_MAXLEN, newval);
+			SetArrayArray(CvarSettingsArray, i, newEntry[0]);
 		}
 	}
 	

@@ -175,6 +175,8 @@ MatchMode_Unload(bool:restartMap=true)
 	ServerCommand("sm plugins load_unlock");
 	UnloadAllPluginsButMe();
 	CloseMapInfo();
+	ServerCommand("exec cfgogl/lgofnoc_off.cfg");
+	ExecuteConfigCfg("lgofnoc_off.cfg");
 	PrintToChatAll("Lgofnoc Matchmode unloaded.");
 	if(restartMap) {
 		RestartMapCountdown(5.0);

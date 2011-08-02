@@ -25,11 +25,6 @@ InitCvarSettings()
 
 public Action:CVS_SetCvars_Cmd(args)
 {
-	if (bTrackingStarted)
-	{
-		PrintToServer("Tracking has already been started");
-		return;
-	}
 	#if CVARS_DEBUG
 		LogMessage("[Lgofnoc] CvarSettings: No longer accepting new ConVars");
 	#endif

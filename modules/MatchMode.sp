@@ -18,6 +18,11 @@ RegisterMatchModeCommands()
 	//g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
 }
 
+RegisterMatchModeNatives()
+{
+	CreateNative("LGO_IsMatchModeLoaded", LGO_IsMatchModeLoaded);
+}
+
 MatchMode_ExecuteConfigs()
 {
 	if(IsMatchModeInProgress())
@@ -218,4 +223,9 @@ public Action:RestartMapCallback(Handle:timer)
 	GetCurrentMap(map, sizeof(map));
 	ForceChangeLevel(map, "Restarting Map for Lgofnoc");
 	return Plugin_Handled;
+}
+
+public LGO_IsMatchModeLoaded(Handle:plugin, numParams)
+{
+	return _:IsMatchModeInProgress();
 }

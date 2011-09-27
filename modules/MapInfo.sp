@@ -42,7 +42,7 @@ LoadMapInfo()
 	#endif
 
 	kMIData = CreateKeyValues("MapInfo");	
-	AddFileToKeyValues(kMIData, "cfg/cfgogl/mapinfo.txt");
+	AddFileToKeyValues(kMIData, "cfg/lgofnoc/mapinfo.txt");
 	BuildConfigPath(sNameBuff, sizeof(sNameBuff), "mapinfo.txt"); //Build our filepath
 	AddFileToKeyValues(kMIData, sNameBuff);
 }

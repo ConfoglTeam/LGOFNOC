@@ -7,7 +7,7 @@
 
 #define __LGOFNOC_CONFIGS__
 
-static const String:customCfgDir[] = "cfgogl";
+static const String:customCfgDir[] = "lgofnoc";
 
 //static Handle:hCustomConfig;
 public String:g_sCurrentConfig[PLATFORM_MAX_PATH]="";

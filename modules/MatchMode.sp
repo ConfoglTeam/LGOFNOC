@@ -31,10 +31,10 @@ MatchMode_ExecuteConfigs()
 		GetCurrentMap(mapbuf, sizeof(mapbuf));
 		StrCat(mapbuf, sizeof(mapbuf), ".cfg");
 	
-		ServerCommand("exec cfgogl/lgofnoc.cfg");
+		ServerCommand("exec lgofnoc/lgofnoc.cfg");
 		ExecuteConfigCfg("lgofnoc.cfg");
 	
-		ServerCommand("exec cfgogl/%s", mapbuf);
+		ServerCommand("exec lgofnoc/%s", mapbuf);
 		ExecuteConfigCfg(mapbuf);
 	}
 }
@@ -110,7 +110,7 @@ bool:MatchMode_Load(const String:config[])
 	
 	ServerCommand("sm plugins load_unlock");
 	UnloadAllPluginsButMe();
-	ServerCommand("exec cfgogl/lgofnoc_plugins.cfg");
+	ServerCommand("exec lgofnoc/lgofnoc_plugins.cfg");
 	ExecuteConfigCfg("lgofnoc_plugins.cfg");
 	return true;
 }
@@ -165,7 +165,7 @@ MatchModeLoad_PostPlugins()
 	Call_PushString(g_sCurrentConfig);
 	Call_Finish();
 
-	ServerCommand("exec cfgogl/lgofnoc_once.cfg");
+	ServerCommand("exec lgofnoc/lgofnoc_once.cfg");
 	ExecuteConfigCfg("lgofnoc_once.cfg");
 	RestartMapCountdown(5.0);
 	PrintToChatAll("Config %s loaded! Map will restart in 5 seconds.", g_sCurrentConfig);
@@ -180,7 +180,7 @@ MatchMode_Unload(bool:restartMap=true)
 	ServerCommand("sm plugins load_unlock");
 	UnloadAllPluginsButMe();
 	CloseMapInfo();
-	ServerCommand("exec cfgogl/lgofnoc_off.cfg");
+	ServerCommand("exec lgofnoc/lgofnoc_off.cfg");
 	ExecuteConfigCfg("lgofnoc_off.cfg");
 	PrintToChatAll("Lgofnoc Matchmode unloaded.");
 	if(restartMap) {

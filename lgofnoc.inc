@@ -59,7 +59,7 @@ native bool:LGO_IsMatchModeLoaded();
 
 /**
  * @brief Build a filepath relative to the current running config.
- * @remarks Should produce a path in cfg/cfgogl/CONFIG/ or addons/sourcemod/configs/lgofnoc
+ * @remarks Should produce a path in cfg/lgofnoc/CONFIG/ or addons/sourcemod/configs/lgofnoc
  * 
  * @param buffer	Buffer to write the path to
  * @param maxlength	Buffer size
@@ -70,7 +70,7 @@ native LGO_BuildConfigPath(String:buffer[], maxlength, const String:sFileName[])
 
 /**
  * @brief Execute a cfg file for the current config
- * @remarks Should execute the named .cfg in cfg/ or cfg/cfgogl/CURRENT_CONFIG/
+ * @remarks Should execute the named .cfg in cfg/ or cfg/lgofnoc/CURRENT_CONFIG/
  * 
  * @param sFileName	Name of the cfg file to execute
  * @noreturn

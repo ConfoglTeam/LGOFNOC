@@ -169,6 +169,9 @@ public SharedPlugin:__pl_lgofnoc =
  
 public __pl_lgofnoc_SetNTVOptional()
 {
+	MarkNativeAsOptional("LGO_IsMatchModeLoaded");
+	MarkNativeAsOptional("LGO_StartMatch");
+	MarkNativeAsOptional("LGO_EndMatch");
 	MarkNativeAsOptional("LGO_BuildConfigPath");
 	MarkNativeAsOptional("LGO_ExecuteConfigCfg");
 	MarkNativeAsOptional("LGO_IsMapDataAvailable");

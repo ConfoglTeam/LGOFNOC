@@ -21,6 +21,8 @@ RegisterMatchModeCommands()
 RegisterMatchModeNatives()
 {
 	CreateNative("LGO_IsMatchModeLoaded", LGO_IsMatchModeLoaded);
+	CreateNative("LGO_StartMatch", LGO_StartMatch);
+	CreateNative("LGO_EndMatch", LGO_EndMatch);
 }
 
 MatchMode_ExecuteConfigs()
@@ -228,4 +230,22 @@ public Action:RestartMapCallback(Handle:timer)
 public LGO_IsMatchModeLoaded(Handle:plugin, numParams)
 {
 	return _:IsMatchModeInProgress();
+}
+
+public LGO_StartMatch(Handle:plugin, numParams)
+{
+	decl len;
+	GetNativeStringLength(1, len);
+	new String:config[len+1];
+	GetNativeString(1, config, len+1);
+
+	return MatchMode_Load(config);
+}
+
+public LGO_EndMatch(Handle:plugin, numParams)
+{
+	if(IsMatchModeInProgress()) 
+	{
+		MatchMode_Unload(bool:GetNativeCell(1));
+	}
 }

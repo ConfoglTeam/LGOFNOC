@@ -58,6 +58,24 @@ forward LGO_OnMatchModeStart(const String:config[]);
 native bool:LGO_IsMatchModeLoaded();
 
 /**
+ * @brief Start matchmode on a given config.
+ * @remarks Acts like "sm_forcematch" command, will unload existing match if one is running
+ *
+ * @param config The name of the config to load for the match
+ * @return true if the config was found and matchmode loading starts, false if config not found.
+ */
+native bool:LGO_StartMatch(const String:config[]);
+
+/**
+ * @brief End the current matchmode
+ * @remarks Acts like "sm_resetmatch" command.
+ *
+ * @param restartMap Whether or not to restart the map after unloading matchmode.
+ * @noreturn
+ */
+native LGO_EndMatch(bool:restartMap=true);
+
+/**
  * @brief Build a filepath relative to the current running config.
  * @remarks Should produce a path in cfg/lgofnoc/CONFIG/ or addons/sourcemod/configs/lgofnoc
  * 

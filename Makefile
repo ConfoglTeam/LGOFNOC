@@ -10,6 +10,7 @@ DEPS = $(addprefix modules/, $(MODULES)) $(addprefix includes/, $(INCLUDES))
 INCL = $(addprefix -i,$(INCLUDE_DIRS))
 SPCOMP = $(SOURCEMOD)/scripting/spcomp
 FLAGS = -v0
+vpath %.smx $(OUTDIR)
 
 all: prep lgofnoc.smx
 

@@ -25,6 +25,7 @@ InitCvarSettings()
 	RegServerCmd("lgofnoc_addcvar_scaled", CVS_AddCvar_Scaled_Cmd, "Add a ConVar with several possible values, one of which is selected based on player number and set by Lgofnoc");
 	RegServerCmd("lgofnoc_setcvars", CVS_SetCvars_Cmd, "Starts enforcing ConVars that have been added.");
 	RegServerCmd("lgofnoc_resetcvars", CVS_ResetCvars_Cmd, "Resets enforced ConVars.  Cannot be used during a match!");
+	PlayerNumberCvar = FindConVar(CVS_PLAYERNUMBER_CVAR);
 }
 
 public Action:CVS_SetCvars_Cmd(args)

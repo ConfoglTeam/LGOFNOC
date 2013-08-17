@@ -31,11 +31,11 @@ MatchMode_ExecuteConfigs()
 	{
 		decl String:mapbuf[128];
 		GetCurrentMap(mapbuf, sizeof(mapbuf));
-		StrCat(mapbuf, sizeof(mapbuf), ".cfg");
-	
+		Format(mapbuf, sizeof(mapbuf), "maps/%s.cfg", mapbuf);
+
 		ServerCommand("exec lgofnoc/lgofnoc.cfg");
 		ExecuteConfigCfg("lgofnoc.cfg");
-	
+
 		ServerCommand("exec lgofnoc/%s", mapbuf);
 		ExecuteConfigCfg(mapbuf);
 	}

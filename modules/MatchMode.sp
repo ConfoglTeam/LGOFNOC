@@ -9,6 +9,7 @@ stock bool:IsMatchModeInProgress() { return g_bMatchModeLoaded; }
 RegisterMatchModeCommands()
 {
 	RegAdminCmd("sm_forcematch", ForceMatchCmd, ADMFLAG_CONFIG, "Loads matchmode on a given config. Will unload a previous config if one is loaded");
+	RegAdminCmd("sm_fm", ForceMatchCmd, ADMFLAG_CONFIG, "Loads matchmode on a given config. Will unload a previous config if one is loaded");
 	RegAdminCmd("sm_softmatch", SoftMatchCmd, ADMFLAG_CONFIG, "Loads matchmode on a given config only if no match is currently running.");
 	RegAdminCmd("sm_resetmatch", ResetMatchCmd, ADMFLAG_CONFIG, "Unloads matchmode if it is currently running");
 	RegServerCmd("command_buffer_done_callback", CmdBufDoneCallback);

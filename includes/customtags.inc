@@ -13,7 +13,7 @@ static Handle:sv_tags;
 static Handle:custom_tags;
 static bool:are_tags_hooked = false;
 static bool:ignore_next_change = false;
-static engine_version = SOURCE_SDK_UNKNOWN;
+static EngineVersion:engine_version = Engine_Unknown;
 
 stock AddCustomServerTag(const String:tag[], bool:force=false)
 {
@@ -24,8 +24,8 @@ stock AddCustomServerTag(const String:tag[], bool:force=false)
 	}
 	
 	if (!force
-		&& (engine_version != SOURCE_SDK_UNKNOWN || (engine_version = GuessSDKVersion()) != SOURCE_SDK_UNKNOWN)
-		&& engine_version >= SOURCE_SDK_LEFT4DEAD)
+		&& (engine_version != Engine_Unknown || (engine_version = GetEngineVersion()) != Engine_Unknown)
+		&& engine_version >= Engine_Left4Dead2)
 	{
 		return;
 	}

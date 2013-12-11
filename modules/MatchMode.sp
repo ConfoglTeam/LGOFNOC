@@ -171,11 +171,11 @@ public Action:LgoLoadPluginCmd(args)
 	return Plugin_Handled;
 }
 
-public Action:LgoAddModule(args)
+public Action:LgoAddModuleCmd(args)
 {
 	if (args < 1)
 	{
-		ReplyToCommand(client, "Must specify a module.");
+		PrintToServer("Must specify a module.");
 	}
 	else
 	{

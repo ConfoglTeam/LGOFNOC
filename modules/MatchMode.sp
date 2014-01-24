@@ -29,7 +29,7 @@ RegisterMatchModeCommands()
 	g_hFwdPostPluginsLoaded = CreateGlobalForward("LGO_OnMatchModeStart", ET_Event, Param_String);
 	//g_hFwdMMUnload = CreateGlobalForward("LGO_OnMatchModeUnloaded", ET_Event);
 
-	g_hArrayModules = CreateArray(MODULE_MAXLENGTH >> 2);	//for MODULE_MAXLENGTH characters
+	g_hArrayModules = CreateArray(MODULE_MAXLENGTH / 4);	//for MODULE_MAXLENGTH characters
 	g_hCvarModuleDir = CreateConVar("lgofnoc_module_dir", g_sModuleDir, "Directory to read modules from.", FCVAR_PLUGIN);
 	HookConVarChange(g_hCvarModuleDir, ModuleDirChanged);
 }

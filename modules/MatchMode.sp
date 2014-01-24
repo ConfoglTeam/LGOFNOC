@@ -54,14 +54,14 @@ MatchMode_ExecuteConfigs()
 		Format(mapbuf, sizeof(mapbuf), "maps/%s.cfg", mapbuf);
 
 		ServerCommand("exec lgofnoc/lgofnoc.cfg");
-	 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
+		for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
 		 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 			ServerCommand("exec lgofnoc/%s%s/lgofnoc.cfg", g_sModuleDir, moduleBuffer);
 		}
 		ExecuteConfigCfg("lgofnoc.cfg");
 
 		ServerCommand("exec lgofnoc/%s", mapbuf);
-	 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
+		for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
 		 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 			ServerCommand("exec lgofnoc/%s%s/%s", g_sModuleDir, moduleBuffer, mapbuf);
 		}
@@ -141,7 +141,7 @@ bool:MatchMode_Load(const String:config[])
 	UnloadAllPluginsButMe();
 
 	ServerCommand("exec lgofnoc/lgofnoc_plugins.cfg");
- 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
+	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
 	 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 		ServerCommand("exec lgofnoc/%s%s/lgofnoc_plugins.cfg", g_sModuleDir, moduleBuffer);
 	}
@@ -215,7 +215,7 @@ MatchModeLoad_PostPlugins()
 	Call_Finish();
 
 	ServerCommand("exec lgofnoc/lgofnoc_once.cfg");
- 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
+	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
 	 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 		ServerCommand("exec lgofnoc/%s%s/lgofnoc_once.cfg", g_sModuleDir, moduleBuffer);
 	}
@@ -236,7 +236,7 @@ MatchMode_Unload(bool:restartMap=true)
 	CloseMapInfo();
 
 	ServerCommand("exec lgofnoc/lgofnoc_off.cfg");
- 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
+	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
 	 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 		ServerCommand("exec lgofnoc/%s%s/lgofnoc_off.cfg", g_sModuleDir, moduleBuffer);
 	}

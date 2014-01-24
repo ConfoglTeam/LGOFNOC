@@ -55,14 +55,14 @@ MatchMode_ExecuteConfigs()
 
 		ServerCommand("exec lgofnoc/lgofnoc.cfg");
 		for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
-		 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
+			GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 			ServerCommand("exec lgofnoc/%s%s/lgofnoc.cfg", g_sModuleDir, moduleBuffer);
 		}
 		ExecuteConfigCfg("lgofnoc.cfg");
 
 		ServerCommand("exec lgofnoc/%s", mapbuf);
 		for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
-		 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
+			GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 			ServerCommand("exec lgofnoc/%s%s/%s", g_sModuleDir, moduleBuffer, mapbuf);
 		}
 		ExecuteConfigCfg(mapbuf);
@@ -142,7 +142,7 @@ bool:MatchMode_Load(const String:config[])
 
 	ServerCommand("exec lgofnoc/lgofnoc_plugins.cfg");
 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
-	 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
+		GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 		ServerCommand("exec lgofnoc/%s%s/lgofnoc_plugins.cfg", g_sModuleDir, moduleBuffer);
 	}
 	ExecuteConfigCfg("lgofnoc_plugins.cfg");
@@ -216,7 +216,7 @@ MatchModeLoad_PostPlugins()
 
 	ServerCommand("exec lgofnoc/lgofnoc_once.cfg");
 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
-	 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
+		GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 		ServerCommand("exec lgofnoc/%s%s/lgofnoc_once.cfg", g_sModuleDir, moduleBuffer);
 	}
 	ExecuteConfigCfg("lgofnoc_once.cfg");
@@ -237,7 +237,7 @@ MatchMode_Unload(bool:restartMap=true)
 
 	ServerCommand("exec lgofnoc/lgofnoc_off.cfg");
 	for (new i = 0; i < GetArraySize(g_hArrayModules); i++) {
-	 	GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
+		GetArrayString(g_hArrayModules, i, moduleBuffer, sizeof(moduleBuffer));
 		ServerCommand("exec lgofnoc/%s%s/lgofnoc_off.cfg", g_sModuleDir, moduleBuffer);
 	}
 	ExecuteConfigCfg("lgofnoc_off.cfg");

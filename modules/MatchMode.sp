@@ -159,6 +159,7 @@ public Action:LgoLoadPluginCmd(args)
 	GetCmdArg(1, plugin, sizeof(plugin));
 	BuildPath(Path_SM, path, sizeof(path), "plugins/%s", plugin);
 	if(FileExists(path))
+	{
 		ServerCommand("sm plugins load %s", plugin);
 		lgoLoadThisFrame=true;
 		return Plugin_Handled;

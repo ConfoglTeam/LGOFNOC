@@ -132,7 +132,10 @@ bool:MatchMode_Load(const String:config[])
 	LoadMapInfo();
 	PrintToChatAll("Starting Matchmode with config %s.", config);
 	g_bMatchModeLoaded=true;
-	
+
+	ServerCommand("exec lgofnoc/lgofnoc_modules.cfg");
+	ExecuteConfigCfg("lgofnoc_modules.cfg");
+
 	Call_StartForward(g_hFwdPrePluginsLoaded);
 	Call_PushString(config);
 	Call_Finish();
@@ -156,7 +159,6 @@ public Action:LgoLoadPluginCmd(args)
 	GetCmdArg(1, plugin, sizeof(plugin));
 	BuildPath(Path_SM, path, sizeof(path), "plugins/%s", plugin);
 	if(FileExists(path))
-	{
 		ServerCommand("sm plugins load %s", plugin);
 		lgoLoadThisFrame=true;
 		return Plugin_Handled;

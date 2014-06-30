@@ -1,5 +1,5 @@
 # LGOFNOC #
-## LGOFNOC Gaming Organization Framework for Normalized, Open Configuration ##
+##### LGOFNOC Gaming Organization Framework for Normalized, Open Configuration
 
 Configuration Management System for Souremod
 
